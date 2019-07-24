@@ -84,6 +84,10 @@ func writeKey(key *rsa.PrivateKey, certs []*x509.Certificate, namespace, label, 
 			v1.TLSPrivateKeyKey: certUtil.EncodePrivateKeyPEM(key),
 			v1.TLSCertKey:       certbytes,
 		},
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Secret",
+			APIVersion: "v1",
+		},
 		Type: v1.SecretTypeTLS,
 	}
 	return secret, nil
@@ -107,7 +111,7 @@ func signKey(r io.Reader, key *rsa.PrivateKey) (*x509.Certificate, error) {
 			CommonName: *myCN,
 		},
 		BasicConstraintsValid: true,
-		IsCA: true,
+		IsCA:                  true,
 	}
 
 	data, err := x509.CreateCertificate(r, &cert, &cert, &key.PublicKey, key)
