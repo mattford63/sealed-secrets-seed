@@ -74,8 +74,8 @@ func writeKey(key *rsa.PrivateKey, certs []*x509.Certificate, namespace, label, 
 	}
 	secret := v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Namespace:    namespace,
-			GenerateName: prefix,
+			Namespace: namespace,
+			Name:      prefix,
 			Labels: map[string]string{
 				label: "active",
 			},
